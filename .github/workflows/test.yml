@@ -90,10 +90,11 @@ jobs:
     needs: [variables, build-binaries]
     strategy:
       matrix:
+        action: ['./.github/workflows/test-windows-dotnet.yml']
         architecture: ['x86', 'x64']
         target_framework: ${{fromJson((needs.variables.outputs.PARALLEL == 'true' && needs.variables.outputs.DOTNET_TARGET_FRAMEWORKS) || '[""]')}}
         build_configuration: ${{fromJson(needs.variables.outputs.BUILD_CONFIGURATIONS)}}
-    uses: ./.github/workflows/test-windows-dotnet.yml
+    uses: ${{matrix.action}}
     with:
       architecture: ${{matrix.architecture}}
       target_framework: ${{matrix.target_framework}}
